@@ -6,11 +6,16 @@ class ProductManagement():
     
     def __init__(self):
         try: 
-            with open('../Inventory_Management/inventory.json', 'r') as f:
+            with open('products.json', 'r') as f:
                 self.products_list = ProductManagement.from_dict(json.load(f))
         except FileNotFoundError:
             self.products_list = []     
 
+    def add_product(self, product:Product):
+        self.products_list.append(product.to_dict())
+    
+    def remove_product(self, product_id:str):
+        self.products_list = [prod for prod in self.products_list if prod.product_id != product_id]
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name

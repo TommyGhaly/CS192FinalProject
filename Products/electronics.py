@@ -13,3 +13,17 @@ class Electronics(Product):
         return (f"Electronics[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
                 f"Brand: {self.brand}, Model: {self.model}, Warranty: {self.warranty_period} months, "
                 f"Stock: {self.stock_quantity}]")
+        
+    
+    @staticmethod
+    def to_dict(self) -> dict:
+        return {
+            "product_id": self.product_id,
+            "name": self.name,
+            "price": self.price,
+            "description": self.description,
+            "stock_quantity": self.stock_quantity,
+            "brand": self.brand,
+            "model": self.model,
+            "warranty_period": self.warranty_period
+        }

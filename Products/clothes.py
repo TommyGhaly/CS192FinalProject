@@ -13,3 +13,17 @@ class Clothes(Product):
         return (f"Clothes[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
                 f"Size: {self.size}, Color: {self.color}, Material: {self.material}, "
                 f"Stock: {self.stock_quantity}]")
+        
+    
+    @staticmethod
+    def to_dict(self) -> dict:
+        return {
+            "product_id": self.product_id,
+            "name": self.name,
+            "price": self.price,
+            "description": self.description,
+            "stock_quantity": self.stock_quantity,
+            "size": self.size,
+            "color": self.color,
+            "material": self.material
+        }
