@@ -12,3 +12,12 @@ class User:
     
     def logout(self):
         pass
+    
+
+    def to_dict(self) -> dict:
+        return {
+            "user_id": self.user_id,
+            "username": self.username,
+            "email": self.email,
+            "password": self.password
+        }

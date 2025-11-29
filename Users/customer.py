@@ -4,3 +4,8 @@ from user import User
 class Customer(User):
     def __init__(self, user_id:str, username:str, email:str, password:str):
         super().__init__(user_id, username, email, password)
+        
+        
+        
+    def place_order(self, order_details:dict):
+        pass
