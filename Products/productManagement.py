@@ -14,8 +14,10 @@ class ProductManagement():
     def add_product(self, product:Product):
         self.products_list.append(product.to_dict())
     
+    
     def remove_product(self, product_id:str):
         self.products_list = [prod for prod in self.products_list if prod.product_id != product_id]
+    
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name
@@ -25,6 +27,7 @@ class ProductManagement():
                 
         return results
     
+    
     def filter_by_price(self, min_price:float, max_price:float) -> List[Product]:
         results = [] # list of products within the price range
         for product in self.products_list:
@@ -33,10 +36,11 @@ class ProductManagement():
                 
         return results
     
+    
     def filter_by_category(self, category:str) -> List[Product]:
         results = [] # list of products matching the category
         for product in self.products_list:
-            if product.__class__.__name__.lower() == category.lower():
+            if isinstance(product, category):
                 results.append(product) 
                 
         return results

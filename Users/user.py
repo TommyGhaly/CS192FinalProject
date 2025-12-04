@@ -5,13 +5,15 @@ class User:
         self.username = username
         self.email = email
         self.password = password
+        self.is_logged_in = False
     
     
     def login(self):
-        pass
+        self.is_logged_in = True
+        
     
     def logout(self):
-        pass
+        self.is_logged_in = False
     
 
     def to_dict(self) -> dict:
