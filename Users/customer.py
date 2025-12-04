@@ -1,4 +1,6 @@
 from user import User
+from typing import *
+
 
 # Subclass of User for Customer able to place orders
 class Customer(User):

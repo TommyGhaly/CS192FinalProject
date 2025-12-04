@@ -8,3 +8,21 @@ class Order():
         self.items = items
         self.total_price = total_price
         self.status = status  # e.g., "Pending", "Shipped", "Delivered" 
+        
+        
+    def set_status(self, new_status: str):
+        self.status = new_status
+        
+    def save_order(self):
+        pass
+    
+    
+    @staticmethod
+    def to_dict(self) -> dict:
+        return {
+            "order_id": self.order_id,
+            "customer": self.customer,
+            "items": [item.to_dict() for item in self.items],
+            "total_price": self.total_price,
+            "status": self.status
+        }

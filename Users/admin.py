@@ -1,4 +1,6 @@
 from user import User
+from typing import *
+import json
 
 # Subclass of User for Admin able to update inventory
 class Admin(User):
@@ -6,5 +8,22 @@ class Admin(User):
         super().__init__(user_id, username, email, password)
 
     
-    def update_inventory(self, item_id:str, quantity:int):
+    def remove_inventory(self, item_id:str, quantity:int):
+        with open('../Inventory_Management/inventory.json', 'r') as f:
+            inventory = json.load(f)
+            
+    
+    def add_inventory(self, item_id:str, quantity:int):
+        pass
+    
+    
+    def view_inventory(self) -> List[Dict]:
+        with open('../Inventory_Management/inventory.json', 'r') as f:
+            inventory = json.load(f)    
+        return inventory
+    
+    def view_users(self):
+        pass
+    
+    def veiw_orders(self):
         pass
