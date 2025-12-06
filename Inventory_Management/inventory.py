@@ -9,26 +9,26 @@ class InventoryService():
         except FileNotFoundError:
             self.inventory = {}
 
-    def add_product(self, product_id:str, quantity:int):
+    def add_product(self, product_id:str):
         if product_id not in self.inventory:
-            self.inventory[product_id] = quantity
+            self.inventory[product_id] = 1
         else:
-            self.inventory[product_id] += quantity
+            self.inventory[product_id] += 1 
         
         InventoryService.save_inventory(self.inventory)
         
-    def remove_product(self, product_id:str, quantity:int):
+    def remove_product(self, product_id:str):
         if product_id in self.inventory:
-            if self.inventory[product_id] >= quantity:
-                self.inventory[product_id] -= quantity
+            if self.inventory[product_id] >= 1:
+                self.inventory[product_id] -= 1
             else:
                 raise ValueError("Not enough stock to remove the requested quantity.")
         else:
             raise ValueError("Product not found in inventory.")
     
         InventoryService.save_inventory(self.inventory)
-        
-    
+
+
     @staticmethod 
     def save_inventory(inventory:Dict[str, int]):
         with open('inventory.json', 'w') as f:

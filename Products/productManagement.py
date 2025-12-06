@@ -1,6 +1,7 @@
 from typing import *
 from ..Products.product import Product
 from ..Inventory_Management.inventory import InventoryService
+from ..Users.admin import Admin
 import json
 import os
 import logging
@@ -16,29 +17,31 @@ class ProductManagement():
 
         self.inventory = InventoryService()
 
-    def add_product(self, product:Product, admin_id:str):
-        if os.path.exists('../Users/user_data.py'):
-            with open('../Users/user_data.py', 'r') as f:
-                users_data = json.load(f)
-                if users_data[admin_id]['is_admin']:
-                    self.products_list.append(product)
-                else:
-                    logging.warning("Only admins can add products.")
+    def add_product(self, product:Product, admin:Admin):
+        if isinstance(admin, Admin):
+            self.products_list.append(product)
+            self.inventory.add_product(product.product_id)
+            InventoryService.save_inventory(self.inventory.inventory)
         else:
-            logging.warning("User data file not found.")
+            logging.warning("Only admins can add products.")
     
     
-    def remove_product(self, product_id:str, admin_id:str):
-        if os.path.exists('../Users/user_data.py'): # check if user data file exists
-            with open('../Users/user_data.py', 'r') as f:
-                users_data = json.load(f)
-                if users_data[admin_id]['is_admin']: # check if user is admin
-                    self.products_list = [prod for prod in self.products_list if prod.product_id != product_id]
-                    self.inventory.remove_product(product_id, 0) # remove from inventory as well
-                else:
-                    logging.warning("Only admins can remove products.")
+    def remove_product(self, product_id:str, admin:Admin):
+        if isinstance(admin, Admin):
+            product_to_remove = None
+            for product in self.products_list:
+                if product.product_id == product_id:
+                    product_to_remove = product
+                    break
+            
+            if product_to_remove:
+                self.products_list.remove(product_to_remove)
+                self.inventory.remove_product(product_id)
+                InventoryService.save_inventory(self.inventory.inventory)
+            else:
+                logging.warning("Product not found.")
         else:
-            logging.warning("User data file not found.")
+            logging.warning("Only admins can remove products.")
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name
@@ -50,11 +53,7 @@ class ProductManagement():
     
     
     def filter_by_price(self, min_price:float, max_price:float) -> List[Product]:
-        results = [] # list of products within the price range
-        for product in self.products_list:
-            if min_price <= product.price <= max_price:
-                results.append(product)
-                
+        results = list(filter(lambda p: min_price < p.price < max_price, self.inventory.inventory))
         return results
     
     
