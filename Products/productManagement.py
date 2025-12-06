@@ -1,6 +1,9 @@
 from typing import *
 from ..Products.product import Product
+from ..Inventory_Management.inventory import InventoryService
 import json
+import os
+import logging
 
 class ProductManagement():
     
@@ -9,15 +12,33 @@ class ProductManagement():
             with open('products.json', 'r') as f:
                 self.products_list = ProductManagement.from_dict(json.load(f))
         except FileNotFoundError:
-            self.products_list = []     
+            self.products_list = []   
 
-    def add_product(self, product:Product):
-        self.products_list.append(product.to_dict())
+        self.inventory = InventoryService()
+
+    def add_product(self, product:Product, admin_id:str):
+        if os.path.exists('../Users/user_data.py'):
+            with open('../Users/user_data.py', 'r') as f:
+                users_data = json.load(f)
+                if users_data[admin_id]['is_admin']:
+                    self.products_list.append(product)
+                else:
+                    logging.warning("Only admins can add products.")
+        else:
+            logging.warning("User data file not found.")
     
     
-    def remove_product(self, product_id:str):
-        self.products_list = [prod for prod in self.products_list if prod.product_id != product_id]
-    
+    def remove_product(self, product_id:str, admin_id:str):
+        if os.path.exists('../Users/user_data.py'): # check if user data file exists
+            with open('../Users/user_data.py', 'r') as f:
+                users_data = json.load(f)
+                if users_data[admin_id]['is_admin']: # check if user is admin
+                    self.products_list = [prod for prod in self.products_list if prod.product_id != product_id]
+                    self.inventory.remove_product(product_id, 0) # remove from inventory as well
+                else:
+                    logging.warning("Only admins can remove products.")
+        else:
+            logging.warning("User data file not found.")
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name
@@ -61,3 +82,7 @@ class ProductManagement():
             )
             products.append(product)
         return products
+    
+    
+    
+# completed

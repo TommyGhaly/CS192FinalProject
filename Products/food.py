@@ -25,3 +25,6 @@ class Food(Product):
             "expiration_date": self.expiration_date,
             "is_organic": self.is_organic
         }
+        
+        
+# completed

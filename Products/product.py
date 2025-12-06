@@ -13,4 +13,6 @@ class Product:
     def get_details(self) -> str:
         return (f"Product ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
                 f"Description: {self.description}, Stock: {self.stock_quantity}]")
-        
+    
+    
+# completed

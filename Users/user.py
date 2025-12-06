@@ -15,7 +15,6 @@ class User:
     def logout(self):
         self.is_logged_in = False
     
-
     def to_dict(self) -> dict:
         return {
             "user_id": self.user_id,
@@ -23,3 +22,11 @@ class User:
             "email": self.email,
             "password": self.password
         }
+    
+    def from_dict(data:dict) -> 'User':
+        return User(
+            user_id=data['user_id'],
+            username=data['username'],
+            email=data['email'],
+            password=data['password']
+        )

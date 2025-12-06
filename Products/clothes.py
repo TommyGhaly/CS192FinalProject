@@ -27,3 +27,6 @@ class Clothes(Product):
             "color": self.color,
             "material": self.material
         }
+        
+        
+# completed

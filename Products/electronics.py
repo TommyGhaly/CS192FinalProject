@@ -27,3 +27,6 @@ class Electronics(Product):
             "model": self.model,
             "warranty_period": self.warranty_period
         }
+        
+        
+# completed

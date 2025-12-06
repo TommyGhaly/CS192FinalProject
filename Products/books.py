@@ -29,3 +29,7 @@ class Book(Product):
             "isbn": self.isbn,
             "genre": self.genre
         }
+        
+        
+    
+# completed

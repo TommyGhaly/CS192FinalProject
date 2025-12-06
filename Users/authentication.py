@@ -1,6 +1,9 @@
 from user import User
 import json
 from typing import *
+from customer import Customer
+from admin import Admin
+import logging
 
 class AuthenticationSystem():
     def __init__(self):
@@ -11,14 +14,21 @@ class AuthenticationSystem():
             self.users_data = {}
     
     
-    def register_user(self, user:User):
-        if self.authenticate_user(user.username, user.password):
+    def register_user(self, user_id:str, username:str, email:str, password:str, is_admin:bool = False):
+        if self.authenticate_user(username, password):
             
-            self.users_data[user.username] = user.to_dict()
-            with open('users_data.json', 'w') as f:
-                json.dump(self.users_data, f)
+            if is_admin:
+                new_user = Admin(user_id, username, email, password)
+                self.users_data[user_id] = new_user.to_dict()
+            else:
+                new_user = Customer(user_id, username, email, password)
+                self.users_data[user_id] = new_user.to_dict()
+            
+            AuthenticationSystem.save_users_data(self.users_data)
         else:
-            raise ValueError("User already exists")
+            logging.warning("Usernaem or password already exists.")
+        
+        
     
     def authenticate_user(self, username:str, password:str) -> bool:
         
@@ -29,8 +39,32 @@ class AuthenticationSystem():
     
     
     def logout_user(self, user:User):
-        pass
+        user.is_logged_in = False
+        self.users_data[user.user_id]['is_logged_in'] = False
+        AuthenticationSystem.save_users_data(self.users_data)
     
     
-    def login_user(self, username:str, password:str) -> Optional[User]:
-        pass
+    def login_user(self, user:User, password:str) -> Optional[User]:
+        if user.password == password:
+            user.is_logged_in = True
+            self.users_data[user.user_id]['is_logged_in'] = True
+            AuthenticationSystem.save_users_data(self.users_data)
+
+    
+    
+    @staticmethod
+    def save_users_data(users_data:Dict[str, Dict]):
+        with open('users_data.json', 'w') as f:
+            json.dump(users_data, f)
+            
+    
+    @staticmethod
+    def load_users_data() -> Dict[str, Dict]:
+        try:
+            with open('users_data.json', 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {}
+        
+        
+# completed
