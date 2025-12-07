@@ -1,4 +1,4 @@
-from product import Product
+from .product import Product
 
 # Subclass of Product for Electronics category
 class Electronics(Product):

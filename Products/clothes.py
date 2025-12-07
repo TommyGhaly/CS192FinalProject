@@ -1,4 +1,4 @@
-from product import Product 
+from .product import Product 
 
 # Subclass of Product for Clothes category
 class Clothes(Product):

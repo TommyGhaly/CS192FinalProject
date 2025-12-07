@@ -1,4 +1,4 @@
-from payment import Payment
+from .payment import Payment
 
 class creditCardPayment(Payment):
     def __init__(self, amount: float):

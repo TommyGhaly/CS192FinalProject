@@ -1,5 +1,5 @@
 from typing import *
-from ..Products.product import Product
+from .product import Product
 from ..Inventory_Management.inventory import InventoryService
 from ..Users.admin import Admin
 import json
@@ -22,6 +22,7 @@ class ProductManagement():
             self.products_list.append(product)
             self.inventory.add_product(product.product_id)
             InventoryService.save_inventory(self.inventory.inventory)
+            ProductManagement.save_products(self.products_list)
         else:
             logging.warning("Only admins can add products.")
     
@@ -38,6 +39,7 @@ class ProductManagement():
                 self.products_list.remove(product_to_remove)
                 self.inventory.remove_product(product_id)
                 InventoryService.save_inventory(self.inventory.inventory)
+                ProductManagement.save_products(self.products_list)
             else:
                 logging.warning("Product not found.")
         else:
@@ -82,6 +84,14 @@ class ProductManagement():
             products.append(product)
         return products
     
+    @staticmethod
+    def to_dict(products:List[Product]) -> List[dict]:
+        return [product.to_dict() for product in products]
     
+    
+    @staticmethod
+    def save_products(products:List[Product]):
+        with open('products.json', 'w') as f:
+            json.dump(ProductManagement.to_dict(products), f, indent=4)
     
 # completed

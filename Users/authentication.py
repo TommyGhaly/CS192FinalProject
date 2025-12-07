@@ -1,8 +1,8 @@
-from user import User
+from .user import User
 import json
 from typing import *
-from customer import Customer
-from admin import Admin
+from .customer import Customer
+from .admin import Admin
 import logging
 
 class AuthenticationSystem():

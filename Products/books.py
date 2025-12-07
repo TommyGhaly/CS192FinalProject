@@ -1,4 +1,4 @@
-from product import Product
+from .product import Product
 
 # Subclass for book products
 class Book(Product):

@@ -1,4 +1,4 @@
-from payment import Payment
+from .payment import Payment
 
 class PayPalPayment(Payment):
     def __init__(self, amount: float, email: str):
