@@ -1,4 +1,7 @@
 from .user import User
+from ..Inventory_Management.inventory import InventoryService
+from ..Products.productManagement import ProductManagement
+from ..Products.product import Product
 from typing import *
 import json
 import os
@@ -7,15 +10,20 @@ import os
 class Admin(User):
     def __init__(self, user_id:str, username:str, email:str, password:str):
         super().__init__(user_id, username, email, password)
+        self.inventory = InventoryService()
+        self.product_management = ProductManagement()
 
     
-    def remove_inventory(self, item_id:str, quantity:int):
-        with open('../Inventory_Management/inventory.json', 'r') as f:
-            inventory = json.load(f)
+    def remove_inventory(self, product_id:str, quantity:int):
+        for i in range(quantity):
+            self.inventory.remove_product(product_id)
+            self.product_management.remove_product(product_id, self)
             
     
-    def add_inventory(self, item_id:str, quantity:int):
-        pass
+    def add_inventory(self, product:Product, quantity:int):
+        for i in range(quantity):
+            self.inventory.add_product(product.product_id)
+            self.product_management.add_product(product, self)
     
     
     def view_inventory(self) -> List[Dict]:

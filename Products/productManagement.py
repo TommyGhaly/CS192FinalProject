@@ -17,7 +17,7 @@ class ProductManagement():
 
         self.inventory = InventoryService()
 
-    def add_product(self, product:Product, admin:Admin):
+    def add_product(self, product: Product, admin:Admin):
         if isinstance(admin, Admin):
             self.products_list.append(product)
             self.inventory.add_product(product.product_id)
