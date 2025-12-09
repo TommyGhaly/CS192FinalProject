@@ -1,30 +1,39 @@
+from typing import Type, Dict
 # Main User Class
 class User:
     def __init__(self, user_id:str, username:str, email:str, password:str ):
-        self._user_id = user_id
-        self._username = username
-        self._email = email
-        self.__password = password
+        self.user_id = user_id
+        self.username = username
+        self.email = email
+        self._password = password
         self._is_logged_in = False
     
     
-    def login(self):
-        self.is_logged_in = True
+    def login(self, password:str):
+        if self.check_password(password):
+            self._is_logged_in = True
         
     
     def logout(self):
-        self.is_logged_in = False
+        self._is_logged_in = False
     
+    def check_password(self, password:str) -> bool:
+        return self._password == password
+    
+
+    @staticmethod
     def to_dict(self) -> dict:
         return {
-            "user_id": self._user_id,
-            "username": self._username,
-            "email": self._email,
-            "password": self.__password
+            "user_id": self.user_id,
+            "username": self.username,
+            "email": self.email,
+            "password": self._password,
+            "is_logged_in": self._is_logged_in
         }
     
-    def from_dict(data:dict) -> 'User':
-        return User(
+    @classmethod
+    def from_dict(cls: Type['User'], data:Dict) -> 'User':
+        return cls(
             user_id=data['user_id'],
             username=data['username'],
             email=data['email'],
@@ -33,25 +42,13 @@ class User:
     
     
     @property
-    def user_id(self) -> str:
-        return self._user_id
-    
+    def is_logged_in(self) -> bool:
+        return self._is_logged_in
+
     @property
-    def username(self) -> str:
-        return self._username
+    def password(self) -> str:
+        return self._password
     
-    @property
-    def email(self) -> str:
-        return self._email
-    
-    @user_id.setter
-    def user_id(self, value:str):
-        self._user_id = value
-    
-    @username.setter
-    def username(self, value:str):
-        self._username = value
-    
-    @email.setter
-    def email(self, value:str):
-        self._email = value
+    @password.setter
+    def password(self, new_password:str):
+        self._password = new_password

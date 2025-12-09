@@ -1,7 +1,6 @@
 from typing import *
 from .product import Product
 from ..Inventory_Management.inventory import InventoryService
-from ..Users.admin import Admin
 import json
 import os
 import logging
@@ -17,33 +16,29 @@ class ProductManagement():
 
         self.inventory = InventoryService()
 
-    def add_product(self, product: Product, admin:Admin):
-        if isinstance(admin, Admin):
-            self.products_list.append(product)
-            self.inventory.add_product(product.product_id)
+    def add_product(self, product: Product):
+        self.products_list.append(product)
+        self.inventory.add_product(product.product_id)
+        InventoryService.save_inventory(self.inventory.inventory)
+        ProductManagement.save_products(self.products_list)
+
+    
+    
+    def remove_product(self, product_id:str):
+        product_to_remove = None
+        for product in self.products_list:
+            if product.product_id == product_id:
+                product_to_remove = product
+                break
+        
+        if product_to_remove:
+            self.products_list.remove(product_to_remove)
+            self.inventory.remove_product(product_id)
             InventoryService.save_inventory(self.inventory.inventory)
             ProductManagement.save_products(self.products_list)
         else:
-            logging.warning("Only admins can add products.")
+            logging.warning("Product not found.")
     
-    
-    def remove_product(self, product_id:str, admin:Admin):
-        if isinstance(admin, Admin):
-            product_to_remove = None
-            for product in self.products_list:
-                if product.product_id == product_id:
-                    product_to_remove = product
-                    break
-            
-            if product_to_remove:
-                self.products_list.remove(product_to_remove)
-                self.inventory.remove_product(product_id)
-                InventoryService.save_inventory(self.inventory.inventory)
-                ProductManagement.save_products(self.products_list)
-            else:
-                logging.warning("Product not found.")
-        else:
-            logging.warning("Only admins can remove products.")
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name

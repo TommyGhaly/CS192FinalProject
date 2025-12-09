@@ -1,6 +1,7 @@
 from typing import *
 from ...Users.customer import Customer
 from ...Products.product import Product
+from ...Products.productManagement import ProductManagement 
 from ...Inventory_Management.inventory import InventoryService
 import logging
 import json
@@ -8,6 +9,8 @@ import json
 class CartService():
     def __init__(self):
         self.carts: Dict[str, Dict[str, int]] = {}
+        self.product_management = ProductManagement()
+        self.inventory_service = InventoryService()
         
     def add_product(self, customer: Customer, product: Product, qty: int):
         

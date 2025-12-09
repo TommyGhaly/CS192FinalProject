@@ -3,11 +3,7 @@ from typing import *
 
 class InventoryService():
     def __init__(self):
-        try: 
-            with open('inventory.json', 'r') as f:
-                self.inventory = json.load(f)
-        except FileNotFoundError:
-            self.inventory = {}
+        self.inventory: Dict[str, int] = InventoryService.load_inventory()
 
     def add_product(self, product_id:str):
         if product_id not in self.inventory:
@@ -28,14 +24,7 @@ class InventoryService():
     
         InventoryService.save_inventory(self.inventory)
 
-
-    @staticmethod 
-    def save_inventory(inventory:Dict[str, int]):
-        with open('inventory.json', 'w') as f:
-            json.dump(inventory, f)
-            
-    @staticmethod
-    def check_stock(product_name:str ) -> int:
+    def check_stock(self, product_name:str ) -> int:
         try:
             with open('inventory.json', 'r') as f:
                 inventory = json.load(f)
@@ -43,4 +32,19 @@ class InventoryService():
         except FileNotFoundError:
             return 0
         
+
+    @staticmethod 
+    def save_inventory(inventory:Dict[str, int]):
+        with open('inventory.json', 'w') as f:
+            json.dump(inventory, f)
+            
+    @staticmethod 
+    def load_inventory() -> Dict[str, int]:
+        try:
+            with open('inventory.json', 'r') as f:
+                inventory = json.load(f)
+                return inventory
+        except FileNotFoundError:
+            return {}
+
 # completed

@@ -5,7 +5,7 @@ from .customer import Customer
 from .admin import Admin
 import logging
 
-class AuthenticationSystem():
+class AuthenticationService():
     def __init__(self):
         try: 
             with open('users_data.json', 'r') as f:
@@ -24,7 +24,7 @@ class AuthenticationSystem():
                 new_user = Customer(user_id, username, email, password)
                 self.users_data[user_id] = new_user.to_dict()
             
-            AuthenticationSystem.save_users_data(self.users_data)
+            AuthenticationService.save_users_data(self.users_data)
         else:
             logging.warning("Usernaem or password already exists.")
         
@@ -41,14 +41,14 @@ class AuthenticationSystem():
     def logout_user(self, user:User):
         user.is_logged_in = False
         self.users_data[user.user_id]['is_logged_in'] = False
-        AuthenticationSystem.save_users_data(self.users_data)
+        AuthenticationService.save_users_data(self.users_data)
     
     
     def login_user(self, user:User, password:str) -> Optional[User]:
         if user.password == password:
             user.is_logged_in = True
             self.users_data[user.user_id]['is_logged_in'] = True
-            AuthenticationSystem.save_users_data(self.users_data)
+            AuthenticationService.save_users_data(self.users_data)
 
     
     
