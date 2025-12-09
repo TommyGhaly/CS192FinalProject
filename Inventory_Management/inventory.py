@@ -31,8 +31,7 @@ class InventoryService():
                 return inventory.get(product_name, 0)
         except FileNotFoundError:
             return 0
-        
-
+    
     @staticmethod 
     def save_inventory(inventory:Dict[str, int]):
         with open('inventory.json', 'w') as f:

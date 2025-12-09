@@ -1,32 +1,31 @@
-from ...Products.product import Product
+from .order import Order
+from ..Carts.cart import Cart
+from ..Payments.payment import Payment
 from typing import *
+import json 
 
 class OrderService():
-    def __init__(self, order_id: str, customer:str, items: List[Product], total_price: float, status: str):
-        self.order_id = order_id
-        self.customer = customer
-        self.items = items
-        self.total_price = total_price
-        self._status = status  # e.g., "Pending", "Shipped", "Delivered" 
-        
-    @property   
-    def status(self) -> str:
-        return self._status
-    
-    @status.setter
-    def status(self, new_status: str):
-        self.status = new_status
-        
-    def save_order(self):
+    def __init__(self):
+        self.order_data = OrderService.load_orders()
+    def create_order(self, cart: Cart, payment: Payment, payment_info: dict) -> Order:
         pass
     
+    def get_order(self, order_id: str) -> Order:
+        pass
+    
+    def list_orders_for_customer(self, customer_id: str) -> List[Order]:
+        pass
     
     @staticmethod
-    def to_dict(self) -> dict:
-        return {
-            "order_id": self.order_id,
-            "customer": self.customer,
-            "items": [item.to_dict() for item in self.items],
-            "total_price": self.total_price,
-            "status": self.status
-        }
+    def load_orders():
+        try: 
+            with open('orders.json', 'r') as f:
+                orders_data = json.load(f)
+                return orders_data
+        except FileNotFoundError:
+            return {}
+
+    @staticmethod
+    def save_orders(orders_data: Dict[str, Dict]):
+        with open('orders.json', 'w') as f:
+            json.dump(orders_data, f)  

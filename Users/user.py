@@ -1,4 +1,4 @@
-from typing import Type, Dict
+from typing import Dict
 # Main User Class
 class User:
     def __init__(self, user_id:str, username:str, email:str, password:str ):
@@ -32,7 +32,7 @@ class User:
         }
     
     @classmethod
-    def from_dict(cls: Type['User'], data:Dict) -> 'User':
+    def from_dict(cls, data:Dict) -> 'User':
         return cls(
             user_id=data['user_id'],
             username=data['username'],

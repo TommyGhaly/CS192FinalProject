@@ -8,41 +8,36 @@ import logging
 class ProductManagement():
     
     def __init__(self):
-        try: 
-            with open('products.json', 'r') as f:
-                self.products_list = ProductManagement.from_dict(json.load(f))
-        except FileNotFoundError:
-            self.products_list = []   
-
+        self._products: List[Product] = ProductManagement.load_products()
         self.inventory = InventoryService()
 
     def add_product(self, product: Product):
-        self.products_list.append(product)
+        self._products.append(product)
         self.inventory.add_product(product.product_id)
         InventoryService.save_inventory(self.inventory.inventory)
-        ProductManagement.save_products(self.products_list)
+        ProductManagement.save_products(self._products)
 
     
     
     def remove_product(self, product_id:str):
         product_to_remove = None
-        for product in self.products_list:
+        for product in self._products:
             if product.product_id == product_id:
                 product_to_remove = product
                 break
         
         if product_to_remove:
-            self.products_list.remove(product_to_remove)
+            self._products.remove(product_to_remove)
             self.inventory.remove_product(product_id)
             InventoryService.save_inventory(self.inventory.inventory)
-            ProductManagement.save_products(self.products_list)
+            ProductManagement.save_products(self._products)
         else:
             logging.warning("Product not found.")
     
     
     def search_by_name(self, name:str) -> List[Product]:
         results = [] # list of products matching the name
-        for product in self.products_list:
+        for product in self._products:
             if product.name.lower() == name.lower():
                 results.append(product)
                 
@@ -56,14 +51,20 @@ class ProductManagement():
     
     def filter_by_category(self, category:str) -> List[Product]:
         results = [] # list of products matching the category
-        for product in self.products_list:
+        for product in self._products:
             if isinstance(product, category):
                 results.append(product) 
                 
         return results
     
+    def all_products(self) -> List[Product]:
+        return self._products
     
-    
+    def get_price_by_id(self, product_id:str) -> float:
+        for product in self._products:
+            if product.product_id == product_id:
+                return product.price
+        return 0.0
     
     @staticmethod
     def from_dict(data:dict) -> List[Product]:
@@ -80,8 +81,13 @@ class ProductManagement():
         return products
     
     @staticmethod
-    def to_dict(products:List[Product]) -> List[dict]:
-        return [product.to_dict() for product in products]
+    def load_products(filename: str = 'products.json') -> List[Product]:
+        try:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+                return ProductManagement.from_dict(data)
+        except FileNotFoundError:
+            return []
     
     
     @staticmethod

@@ -11,6 +11,6 @@ class Payment(ABC):
     
     
     @abstractmethod
-    def process_payment(self):
-        pass
+    def process_payment(self, amount: float, payment_info: dict) -> bool:
+        raise NotImplementedError("Subclasses must implement this method")
         
