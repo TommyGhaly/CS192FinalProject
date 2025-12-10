@@ -1,5 +1,4 @@
 import os
-from ..Shopping.Orders.orderService import Order
 from typing import *
 import json
 
@@ -26,17 +25,38 @@ class DataManagement():
         DataManagement.save_data(self.data, self.filepath)
 
     def save_product_data(self, product_data: Dict):
-        pass
-    
+        if 'products' not in self.data:
+            self.data['products'] = product_data
+        
+        else:
+            self.data['products'].update(product_data)
+            
+        DataManagement.save_data(self.data, self.filepath)
+           
     def save_inventory_data(self, inventory_data: Dict):
-        pass
+        if 'inventory' not in self.data:
+            self.data['inventory'] = inventory_data
+        else:
+            self.data['inventory'].update(inventory_data)
+        
+        DataManagement.save_data(self.data, self.filepath)
     
     def save_cart_data(self, cart_data: Dict):
-        pass
+        if 'carts' not in self.data:
+            self.data['carts'] = cart_data
+        else:
+            self.data['carts'].update(cart_data)
+        
+        DataManagement.save_data(self.data, self.filepath)
     
     def save_payment_data(self, payment_data: Dict):
-        pass
-    
+        if 'payments' not in self.data:
+            self.data['payments'] = payment_data
+        else:
+            self.data['payments'].update(payment_data)
+
+        DataManagement.save_data(self.data, self.filepath) 
+           
     @staticmethod
     def load_data(filename: str) -> Dict:
         try:
