@@ -42,5 +42,5 @@ class ApplePayPayment(Payment):
                 logging.warning(f'Missing required payment info field: {field}')
                 return False
             
-        logging.log(f'Processing payment of ${amount} via Apple Pay from device account {self.device_account_number} 🍎')
+        logging.info(f'Processing payment of ${amount} via Apple Pay from device account {self.device_account_number} 🍎')
         return True

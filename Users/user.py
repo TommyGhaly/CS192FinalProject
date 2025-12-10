@@ -64,7 +64,6 @@ class User:
         return self._password == password
     
 
-    @staticmethod
     def to_dict(self) -> dict:
         """
         Method to convert User object to dictionary representation

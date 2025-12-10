@@ -42,5 +42,5 @@ class BankTransferPayment(Payment):
             if field not in payment_info:
                 logging.warning(f'Missing required payment info field: {field}')
                 return False
-        logging.log(f'Processing payment of ${amount} via Bank Transfer from account {self.bank_account} 🏦')
+        logging.info(f'Processing payment of ${amount} via Bank Transfer from account {self.bank_account} 🏦')
         return True

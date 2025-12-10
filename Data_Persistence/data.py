@@ -85,22 +85,6 @@ class DataManagement():
         
         DataManagement.save_data(self.data, self.filepath)
         
-    
-    def save_payment_data(self, payment_data: Dict):
-        """
-        Save new payment data into the main JSON data structure.
-
-        Args:
-            payment_data (dict): A dictionary containing the payment data to save.
-        """
-        
-        if 'payments' not in self.data:
-            self.data['payments'] = payment_data
-        else:
-            self.data['payments'].update(payment_data)
-
-        DataManagement.save_data(self.data, self.filepath) 
-        
            
     @staticmethod
     def load_data(filename: str) -> Dict:
@@ -160,7 +144,6 @@ class DataManagement():
             "orders": {},
             "users": {},
             "inventory": {},
-            "payments": {}
         }
 
 

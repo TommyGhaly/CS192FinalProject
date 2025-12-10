@@ -39,5 +39,5 @@ class CreditCardPayment(Payment):
             if field not in payment_info:
                 logging.warning(f'Missing required payment info field: {field}')
                 return False
-        logging.log(f'Processing payment of ${amount} via Credit Card ending with {payment_info.get("card_number")[-4:]} 💳')
+        logging.info(f'Processing payment of ${amount} via Credit Card ending with {payment_info.get("card_number")[-4:]} 💳')
         return True

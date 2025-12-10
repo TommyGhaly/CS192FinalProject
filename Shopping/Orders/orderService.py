@@ -51,7 +51,7 @@ class OrderService():
             if self.inventory_service.check_stock(key) > value: # ensure enough stock
                 
                 reserved_stock[key] = value
-                logging.log(f'Reserving {value} of {key} stock')
+                logging.info(f'Reserving {value} of {key} stock')
                 
             else:
                 
@@ -65,7 +65,7 @@ class OrderService():
                                 
         if payment.process_payment(total_price, payment_info): # ensure payment processes correctly
             self.update_stocks(reserved_stock)
-            logging.log(f'Order paid successfully!')
+            logging.info(f'Order paid successfully!')
             order = Order(order_id, customer_id, cart.get_items(), total_price, 'paid', payment_info)
             self.order_data[order_id] = order.to_dict
             self.dm.save_order_data(self.order_data)
@@ -120,7 +120,7 @@ class OrderService():
         """
         
         orders = []
-        for _, value in self.order_data:
+        for _, value in self.order_data.items():
             if value.get('customer_id', '') == customer_id:
                 orders.append(value)
         
@@ -151,4 +151,4 @@ class OrderService():
         """
         
         with open('./Shopping/Orders/orders.json', 'w') as f:
-            json.dump(orders_data, f)  
+            json.dump(orders_data, f, indent=4)  

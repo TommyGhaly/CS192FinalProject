@@ -3,6 +3,7 @@ import json
 from typing import *
 from Users.customer import Customer
 from Users.admin import Admin
+from Data_Persistence.data import DataManagement
 import logging
 
 class AuthenticationService():
@@ -16,6 +17,7 @@ class AuthenticationService():
         
         Attributes:
             users_data: Dictionary loaded from users_data.json containing all user information
+            dm: Data management object to store users
         """
         
         try: 
@@ -23,7 +25,8 @@ class AuthenticationService():
                 self.users_data = json.load(f)
         except FileNotFoundError:
             self.users_data = {}
-    
+        self.dm = DataManagement()
+        
     
     def register_user(self, user_id: str, username: str, email: str, password: str, is_admin: bool = False):
         """
@@ -46,6 +49,7 @@ class AuthenticationService():
                 new_user = Customer(user_id, username, email, password)
                 self.users_data[user_id] = new_user.to_dict()
             
+            self.dm.save_user_data(self.users_data)
             AuthenticationService.save_users_data(self.users_data)
         else:
             logging.warning("Usernaem or password already exists.")
@@ -80,6 +84,7 @@ class AuthenticationService():
         
         user.is_logged_in = False
         self.users_data[user.user_id]['is_logged_in'] = False
+        self.dm.save_user_data(self.users_data)
         AuthenticationService.save_users_data(self.users_data)
     
     
@@ -98,6 +103,7 @@ class AuthenticationService():
         if user.password == password:
             user.is_logged_in = True
             self.users_data[user.user_id]['is_logged_in'] = True
+            self.dm.save_user_data(self.users_data)
             AuthenticationService.save_users_data(self.users_data)
 
     
@@ -112,7 +118,7 @@ class AuthenticationService():
         """
         
         with open('./Users/users_data.json', 'w') as f:
-            json.dump(users_data, f)
+            json.dump(users_data, f, indent=4)
             
     
     @staticmethod
