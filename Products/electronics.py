@@ -40,7 +40,7 @@ class Electronics(Product):
             str: String listing out all of the attributes of the electronics
         """
         
-        return (f"Electronics[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
+        return (f"Electronics[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, Description: {self.description}"
                 f"Brand: {self.brand}, Model: {self.model}, Warranty: {self.warranty_period} months, "
                 f"Stock: {self.stock_quantity}]")
         

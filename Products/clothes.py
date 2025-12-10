@@ -42,7 +42,7 @@ class Clothes(Product):
             str: string describing all of the cloth's attributes
         """
         
-        return (f"Cloth ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
+        return (f"Cloth ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, Description: {self.description},"
                 f"Size: {self.size}, Color: {self.color}, Material: {self.material}, "
                 f"Stock: {self.stock_quantity}]")
         

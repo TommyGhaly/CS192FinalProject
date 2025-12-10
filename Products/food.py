@@ -37,7 +37,7 @@ class Food(Product):
             str: String containing all of the food's attributes
         """
         
-        return (f"Food[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
+        return (f"Food[ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, Description: {self.description}"
                 f"Expiration Date: {self.expiration_date}, Organic: {self.is_organic}, "
                 f"Stock: {self.stock_quantity}]")
         

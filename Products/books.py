@@ -45,7 +45,7 @@ class Books(Product):
             str: String describing all of the properties of the Book object
         """
         
-        return (f"Book ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, "
+        return (f"Book ID: {self.product_id}, Name: {self.name}, Price: ${self.price}, Description: {self.description},"
                 f"Author: {self.author}, Publisher: {self.publisher}, ISBN: {self.isbn}, "
                 f"Genre: {self.genre}, Stock: {self.stock_quantity}]")
         

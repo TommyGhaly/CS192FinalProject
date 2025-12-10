@@ -2,10 +2,12 @@ from typing import *
 from .product import Product
 from ..Inventory_Management.inventory import InventoryService
 import json
-import os
 import logging
 
 class ProductManagement():
+    """
+    Service object to Manage the products 
+    """
     
     def __init__(self):
         self._products: List[Product] = ProductManagement.load_products()
