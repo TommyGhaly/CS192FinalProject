@@ -1,12 +1,12 @@
 from .product import Product
 
 # Subclass for book products
-class Book(Product):
+class Books(Product):
     """
     Subclass that extends the Product class
     """
     
-    def __init__(self, name:str, price:float, description:str, stock_quantity:int, author:str, publisher:str, isbn:str, genre:str):
+    def __init__(self, name:str, product_id: str, price:float, description:str, stock_quantity:int, author:str, publisher:str, isbn:str, genre:str):
         """
         Initialize a Book object, inheriting from the Product class.
 
@@ -15,9 +15,10 @@ class Book(Product):
 
         Args:
             name (str): The name of the book.
+            product_id: The product ID.
             price (float): The price of the book.
             description (str): A short description of the book.
-            stock_quantity (int): The number of copies available in stock.
+            stock_quantity (int): The number of this Book in stock.
             author (str): The author of the book.
             publisher (str): The publisher of the book.
             isbn (str): The ISBN identifier of the book.
@@ -29,7 +30,7 @@ class Book(Product):
             isbn (str): The ISBN identifier of the book.
             genre (str): The genre or category of the book.
         """
-        super().__init__('book', name, price, description, stock_quantity)
+        super().__init__(product_id, name, price, description, stock_quantity)
         self.author = author
         self.publisher = publisher
         self.isbn = isbn
@@ -49,10 +50,9 @@ class Book(Product):
                 f"Genre: {self.genre}, Stock: {self.stock_quantity}]")
         
     
-    @staticmethod
     def to_dict(self) -> dict:
         """
-        Static method to convert object into a dictionary
+        Method to convert object into a dictionary
         
         Returns: 
             dict: dictionary contiaining all of the attributes of the Book object

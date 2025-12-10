@@ -22,7 +22,7 @@ class InventoryService():
         self.inventory: Dict[str, int] = InventoryService.load_inventory()
         self.data_service = DataManagement()
 
-    def add_product(self, product_id:str):
+    def add_product(self, product_id:str, qty: int):
         """
         Method to add 1 level of stock to the inventory. First checks to see
         if the stock is present in `self.inventory` and then appends the ineger value
@@ -32,29 +32,31 @@ class InventoryService():
         
         Args:
             product_id (str): Identification string to locate the stock that is to be updated
+            qty (int): The number of a certain product to be added
         """
         
         if product_id not in self.inventory:
-            self.inventory[product_id] = 1
+            self.inventory[product_id] = qty
         else:
-            self.inventory[product_id] += 1 
+            self.inventory[product_id] += qty
         
         InventoryService.save_inventory(self.inventory)
         self.data_service.save_inventory_data(self.inventory)
         
         
-    def remove_product(self, product_id:str):
+    def remove_product(self, product_id:str, qty: int):
         """
         Method to remove 1 unit of stock. Checks to see if there is adiquate level of stock before 
         removal. Saves updated inventory in both JSON files.
         
         Args:
             product_id (str): Identification string to locate the stock that is to be updated
+            qty (int): The number of of a certain product to be removed
         """
         
         if product_id in self.inventory:
-            if self.inventory[product_id] >= 1:
-                self.inventory[product_id] -= 1
+            if self.inventory[product_id] >= qty:
+                self.inventory[product_id] -= qty
             else:
                 raise ValueError("Not enough stock to remove the requested quantity.")
         else:

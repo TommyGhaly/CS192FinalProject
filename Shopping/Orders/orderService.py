@@ -54,8 +54,7 @@ class OrderService():
         
     def update_stocks(self, reserved_stock: Dict[str:int]):
         for key, value in reserved_stock.items():
-            for i in range(value):
-                self.pm.remove_product(key)
+            self.pm.remove_product(key, value)
     
     
     def get_order(self, order_id: str) -> Order:

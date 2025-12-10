@@ -1,12 +1,12 @@
 from .product import Product 
 
 # Subclass of Product for Clothes category
-class Cloth(Product):
+class Clothes(Product):
     """
     Subclass that extends Product    
     """
     
-    def __init__(self, name:str, price:float, description:str, stock_quantity:int, size:str, color:str, material:str):
+    def __init__(self, name:str, product_id:str, price:float, description:str, stock_quantity: int, size:str, color:str, material:str):
         """
         Initialize a Cloth object, inheriting from the Product class.
 
@@ -15,9 +15,10 @@ class Cloth(Product):
 
         Args:
             name (str): The name of the clothing.
+            product_id (str): The product ID
             price (float): The price of the clothing.
             description (str): A short description of the clothing.
-            stock_quantity (int): The number of clothing available in stock.
+            stock_quantity (int): The number of these clothes in stock
             size (str): The size of the piece of clothing (ex. "small", "medium", "large").
             color (str): Color of the clothing.
             material (str): Material of clothing. 
@@ -27,7 +28,7 @@ class Cloth(Product):
             color (str): The color of the clothing. 
             material (str): The material of the clothing.
         """
-        super().__init__('cloth', name, price, description, stock_quantity)
+        super().__init__(product_id, name, price, description, stock_quantity)
         self.size = size
         self.color = color
         self.material = material
@@ -46,10 +47,9 @@ class Cloth(Product):
                 f"Stock: {self.stock_quantity}]")
         
     
-    @staticmethod
     def to_dict(self) -> dict:
         """
-        Static method to convert the attributes of the clothing object into a dictonary
+        Method to convert the attributes of the clothing object into a dictonary
         
         Returns:
             dict: dictionary with all of the object's attributes

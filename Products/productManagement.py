@@ -13,22 +13,28 @@ class ProductManagement():
 
     def add_product(self, product: Product):
         self._products.append(product)
-        self.inventory.add_product(product.product_id)
+        self.inventory.add_product(product.product_id, product.stock_quantity)
         InventoryService.save_inventory(self.inventory.inventory)
         ProductManagement.save_products(self._products)
 
     
     
-    def remove_product(self, product_id:str):
-        product_to_remove = None
+    def remove_product(self, product_id:str, qty: int):
+        new_prod = None
         for product in self._products:
             if product.product_id == product_id:
-                product_to_remove = product
+                new_prod= product
                 break
         
-        if product_to_remove:
-            self._products.remove(product_to_remove)
-            self.inventory.remove_product(product_id)
+        if new_prod.stock_quantity <= qty:
+            new_prod.stock_quantity -= qty
+            
+            for i in range(self._products):
+                if self._products[i].product_id == new_prod.product_id:
+                    self._products[i] = new_prod
+                    break
+                    
+            self.inventory.remove_product(product_id, qty)
             InventoryService.save_inventory(self.inventory.inventory)
             ProductManagement.save_products(self._products)
         else:
@@ -95,4 +101,3 @@ class ProductManagement():
         with open('products.json', 'w') as f:
             json.dump(ProductManagement.to_dict(products), f, indent=4)
     
-# completed
