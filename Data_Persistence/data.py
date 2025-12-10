@@ -1,5 +1,6 @@
 from typing import *
 import json
+import os
 
 class DataManagement():
     """
@@ -17,7 +18,7 @@ class DataManagement():
             filepath (str): Path to the JSON data file.
             data (dict): Data loaded from the JSON file
         """
-        self.filepath = 'data.json'
+        self.filepath = './Data_Persistence/data.json'
         self.data = DataManagement.load_data(self.filepath)
 
 
@@ -83,22 +84,6 @@ class DataManagement():
             self.data['inventory'].update(inventory_data)
         
         DataManagement.save_data(self.data, self.filepath)
-    
-    
-    def save_cart_data(self, cart_data: Dict):
-        """
-        Save new cart data into the main JSON data structure.
-
-        Args:
-            cart_data (dict): A dictionary containing the cart data to save.
-        """
-        
-        if 'carts' not in self.data:
-            self.data['carts'] = cart_data
-        else:
-            self.data['carts'].update(cart_data)
-        
-        DataManagement.save_data(self.data, self.filepath)
         
     
     def save_payment_data(self, payment_data: Dict):
@@ -120,30 +105,76 @@ class DataManagement():
     @staticmethod
     def load_data(filename: str) -> Dict:
         """
-        Static method to load the data from the JSON file locaed at the filename
-        
+        Static method to safely load the data from the JSON file located at the given filename.
+
+        This method handles several edge cases to prevent JSON decoding errors:
+            - If the file does not exist, it creates a new file with a default data structure.
+            - If the file exists but is empty, it initializes it with a default data structure.
+            - If the file exists but contains invalid/corrupted JSON, the file is reset to defaults.
+
         Args:
-            filename (str): A string containing the location of the JSON file
+            filename (str): A string containing the location of the JSON file.
+
+        Returns:
+            dict: The loaded JSON data as a Python dictionary.
         """
-        
+
+        # If file doesn't exist → create it with a base structure
+        if not os.path.exists(filename):
+            default = DataManagement.default_data()
+            DataManagement.save_data(default, filename)
+            return default
+
+        # If file exists but is empty → reset to defaults
+        if os.path.getsize(filename) == 0:
+            default = DataManagement.default_data()
+            DataManagement.save_data(default, filename)
+            return default
+
+        # Normal load attempt
         try:
             with open(filename, 'r') as f:
-                data = json.load(f)
-                return data
-        except FileNotFoundError:
-            with open(filename, 'w') as f:
-                f.write("")
-            return {}
-        
-        
+                return json.load(f)
+
+        except (json.JSONDecodeError, ValueError):
+            # File is corrupted → restore default structure
+            default = DataManagement.default_data()
+            DataManagement.save_data(default, filename)
+            return default
+
+
+    @staticmethod
+    def default_data() -> Dict:
+        """
+        Static method returning the base data structure for the entire E-Shop system.
+
+        This ensures a consistent format for the JSON file, even if the file is newly created
+        or corrupted.
+
+        Returns:
+            dict: A dictionary containing empty sections for products, orders, users,
+                  inventory, and payments.
+        """
+        return {
+            "products": {},
+            "orders": {},
+            "users": {},
+            "inventory": {},
+            "payments": {}
+        }
+
+
     @staticmethod
     def save_data(data: Dict, filename: str):
         """
-        Static method to save the contents of the `self.data` attribute into the JSON file
-        
+        Static method to save the complete data dictionary into the JSON file.
+
+        This method guarantees that the data is cleanly written to the file and properly
+        formatted using indentation.
+
         Args:
-            data (dict): Complete dictonary of all the data from the entire E-Shop System
-        """ 
-        
+            data (dict): Complete dictionary of all system data.
+            filename (str): The location of the JSON file to save to.
+        """
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)

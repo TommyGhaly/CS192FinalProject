@@ -1,4 +1,4 @@
-from .product import Product
+from Products.product import Product
 from typing import Dict
 
 # Subclass of Product for Food category

@@ -1,6 +1,6 @@
 import json
 from typing import *
-from ..Data_Persistence.data import DataManagement
+from Data_Persistence.data import DataManagement
 class InventoryService():
     """
     Service class that tracks the inventory of each product and saves it to the inventory
@@ -93,7 +93,7 @@ class InventoryService():
             inventory (dict): Dictionary containing all of the contents of the Inventory
         """
         
-        with open('inventory.json', 'w') as f:
+        with open('./Inventory_management/inventory.json', 'w') as f:
             json.dump(inventory, f, indent=4)
             
     @staticmethod 
@@ -105,7 +105,7 @@ class InventoryService():
             Dict[str, int]: Dictionary data containing all of the inventory data. 
         """
         try:
-            with open('inventory.json', 'r') as f:
+            with open('./Inventory_management/inventory.json', 'r') as f:
                 inventory = json.load(f)
                 return inventory
         except FileNotFoundError:

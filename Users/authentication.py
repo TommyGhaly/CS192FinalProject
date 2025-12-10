@@ -1,8 +1,8 @@
-from .user import User
+from Users.user import User
 import json
 from typing import *
-from .customer import Customer
-from .admin import Admin
+from Users.customer import Customer
+from Users.admin import Admin
 import logging
 
 class AuthenticationService():
@@ -111,7 +111,7 @@ class AuthenticationService():
             users_data (Dict[str, Dict]): Dictionary of all users to save
         """
         
-        with open('users_data.json', 'w') as f:
+        with open('./Users/users_data.json', 'w') as f:
             json.dump(users_data, f)
             
     
@@ -125,7 +125,7 @@ class AuthenticationService():
         """
         
         try:
-            with open('users_data.json', 'r') as f:
+            with open('./Users/users_data.json', 'r') as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}

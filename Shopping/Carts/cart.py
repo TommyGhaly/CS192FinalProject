@@ -1,4 +1,4 @@
-from ...Products.productManagement import ProductManagement
+from Products.productManagement import ProductManagement
 from typing import *
 
 

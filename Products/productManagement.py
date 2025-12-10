@@ -1,7 +1,7 @@
 from typing import *
-from .product import Product
-from ..Inventory_Management.inventory import InventoryService
-from ..Data_Persistence.data import DataManagement
+from Products.product import Product
+from Inventory_Management.inventory import InventoryService
+from Data_Persistence.data import DataManagement
 import json
 import logging
 
@@ -155,7 +155,7 @@ class ProductManagement():
 
 
     def save_products(self, products:List[Product]):
-        with open('products.json', 'w') as f:
+        with open('./Products/products.json', 'w') as f:
             json.dump(self.to_dict(products), f, indent=4)
         self.dm.save_product_data(self.to_dict(products))
     
@@ -200,7 +200,7 @@ class ProductManagement():
     
     
     @staticmethod
-    def load_products(filename: str = 'products.json') -> List[Product]:
+    def load_products(filename: str = './Products/products.json') -> List[Product]:
         """
         Static mehtod to load the products from the filepath
         

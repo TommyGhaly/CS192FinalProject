@@ -1,7 +1,7 @@
-from .user import User
-from ..Inventory_Management.inventory import InventoryService
-from ..Products.productManagement import ProductManagement
-from ..Products.product import Product
+from Users.user import User
+from Inventory_Management.inventory import InventoryService
+from Products.productManagement import ProductManagement
+from Products.product import Product
 from typing import *
 import json
 import os

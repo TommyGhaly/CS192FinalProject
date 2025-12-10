@@ -1,4 +1,4 @@
-from .payment import Payment
+from Shopping.Payments.payment import Payment
 import logging
 
 class PayPalPayment(Payment):

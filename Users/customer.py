@@ -1,8 +1,8 @@
 from .user import User
 from typing import *
-from ..Shopping.Carts.cart import Cart
-from ..Shopping.Orders.orderService import OrderService
-from ..Shopping.Payments.payment import Payment
+from Shopping.Carts.cart import Cart
+from Shopping.Orders.orderService import OrderService
+from Shopping.Payments.payment import Payment
 import logging
 
 class Customer(User):

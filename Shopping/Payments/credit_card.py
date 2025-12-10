@@ -1,7 +1,7 @@
-from .payment import Payment
+from Shopping.Payments.payment import Payment
 import logging
 
-class creditCardPayment(Payment):
+class CreditCardPayment(Payment):
     """
     Credit Card payment implementation
     """

@@ -1,9 +1,9 @@
-from .order import Order
-from ..Carts.cart import Cart
-from ..Payments.payment import Payment
-from ...Products.productManagement import ProductManagement
-from ...Inventory_Management.inventory import InventoryService
-from ...Data_Persistence.data import DataManagement
+from Shopping.Orders.order import Order
+from Shopping.Carts.cart import Cart
+from Shopping.Payments.payment import Payment
+from Products.productManagement import ProductManagement
+from Inventory_Management.inventory import InventoryService
+from Data_Persistence.data import DataManagement
 from typing import *
 import json 
 import logging
@@ -81,12 +81,12 @@ class OrderService():
             return order
         
         
-    def update_stocks(self, reserved_stock: Dict[str:int]):
+    def update_stocks(self, reserved_stock: Dict[str,int]):
         """
         Update the inventory and product list 
         
         Args:
-            reserved_stock (Dict[str:int]): dictionary mapping each product bought with a quantity to update
+            reserved_stock (Dict[str,int]): dictionary mapping each product bought with a quantity to update
                                             files
         """
         
@@ -134,7 +134,7 @@ class OrderService():
         """
         
         try: 
-            with open('orders.json', 'r') as f:
+            with open('./Shopping/Orders/orders.json', 'r') as f:
                 orders_data = json.load(f)
                 return orders_data
         except FileNotFoundError:
@@ -150,5 +150,5 @@ class OrderService():
             order_data (dict[str, dict]): order data in the form of dictionaries        
         """
         
-        with open('orders.json', 'w') as f:
+        with open('./Shopping/Orders/orders.json', 'w') as f:
             json.dump(orders_data, f)  
