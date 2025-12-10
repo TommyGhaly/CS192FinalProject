@@ -361,17 +361,6 @@ def main():
     # 9. DEMO COMPLETE
     # =========================================
     print_section("DEMO COMPLETE")
-    print("Successfully demonstrated:")
-    print("  [x] Product creation & persistence")
-    print("  [x] User registration & persistence")
-    print("  [x] User authentication")
-    print("  [x] Shopping cart operations")
-    print("  [x] Payment processing")
-    print("  [x] Order creation & persistence")
-    print("  [x] Inventory management & persistence")
-    print("  [x] Centralized data store (data.json)")
-    print()
-
 
 if __name__ == "__main__":
     main()
