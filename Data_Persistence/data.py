@@ -1,13 +1,11 @@
-"""
-Data Service Class that will be called in other files to have one big JSON data
-file
-"""
-
 from typing import *
 import json
 
 class DataManagement():
-
+    """
+    Data Service Class that will be called in other files to have one big JSON data
+    file
+    """
     def __init__(self):
         """
         Initialize the class by setting the data file path and loading its contents.
