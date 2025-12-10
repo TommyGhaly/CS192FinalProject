@@ -2,8 +2,8 @@ from .product import Product
 
 # Subclass of Product for Food category
 class Food(Product):
-    def __init__(self, product_id:str, name:str, price:float, description:str, stock_quantity:int, expiration_date:str, is_organic:bool):
-        super().__init__(product_id, name, price, description, stock_quantity)
+    def __init__(self, name:str, price:float, description:str, stock_quantity:int, expiration_date:str, is_organic:bool):
+        super().__init__('food', name, price, description, stock_quantity)
         self.expiration_date = expiration_date
         self.is_organic = is_organic
         

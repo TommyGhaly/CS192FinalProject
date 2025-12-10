@@ -2,8 +2,8 @@ from .product import Product
 
 # Subclass of Product for Clothes category
 class Clothes(Product):
-    def __init__(self, product_id:str, name:str, price:float, description:str, stock_quantity:int, size:str, color:str, material:str):
-        super().__init__(product_id, name, price, description, stock_quantity)
+    def __init__(self, name:str, price:float, description:str, stock_quantity:int, size:str, color:str, material:str):
+        super().__init__('cloth', name, price, description, stock_quantity)
         self.size = size
         self.color = color
         self.material = material

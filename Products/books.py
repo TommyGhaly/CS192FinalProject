@@ -2,8 +2,12 @@ from .product import Product
 
 # Subclass for book products
 class Book(Product):
-    def __init__(self, product_id:str, name:str, price:float, description:str, stock_quantity:int, author:str, publisher:str, isbn:str, genre:str):
-        super().__init__(product_id, name, price, description, stock_quantity)
+    """
+    Subclass that extends the Product class
+    """
+    
+    def __init__(self, name:str, price:float, description:str, stock_quantity:int, author:str, publisher:str, isbn:str, genre:str):
+        super().__init__('book', name, price, description, stock_quantity)
         self.author = author
         self.publisher = publisher
         self.isbn = isbn
